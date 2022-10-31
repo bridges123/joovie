@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: head (${video.getTitle() + ' - Joovie'}, @{/css/video.css})"></head>
+<body>
+<div th:replace="base :: navbar (false)"></div>
+
+<div class="video-block">
+    <video class="video-player" th:src="${video.getVideo()}" controls="controls" autoplay="autoplay"
+           style="width: 960px; height: 540px;"></video>
+    <!--  добавить теги (вывод первых 3 мб)   -->
+    <h4 class="video-title" th:text="${video.getTitle()}">Title</h4>
+    <div class="video-info" style="font-size: 13px;">
+        <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                <span class="video-views" id="video-views" th:text="${video.getViews()}"
+                      style="margin-right: 10px; font-weight: 600;">Views</span>
+            <span class="video-date" th:text="${#dates.format(video.getUploaded(), 'd MMM yyyy')}"
+                  style="font-weight: 600;">Uploaded</span>
+            <div class="video-actions">
+                <div class="like" th:attr="liked=1" style="cursor: pointer; display: flex; align-items: center;"
+                     th:onclick="update_like()">
+                    <!--                <div class="like" th:attr="liked=${video.getLiked()}" style="cursor: pointer; display: flex; align-items: center;"-->
+                    <!--                     th:onclick="update_like()">-->
+                    <img th:src="@{/img/like.svg}" alt="Like" class="like-icon"
+                         style="width: 22px; height: 22px; margin-right: 5px;">
+                    <span class="video-likes" th:text="33">Likes</span>
+                    <!--                    <span class="video-likes" th:text="${video.getLikes()}">Likes</span>-->
+                </div>
+                <div class="dislike" th:attr="disliked=0" style="cursor: pointer"
+                     th:onclick="update_dislike()">
+                    <!--                <div class="dislike" th:attr="disliked=${video.getDisliked()}" style="cursor: pointer"-->
+                    <!--                     th:onclick="update_dislike()">-->
+                    <img th:src="@{/img/like.svg}" alt="Like" class="dislike-icon"
+                         style="width: 22px; height: 22px; transform: rotate(180deg);">
+                    <span>Dislike</span>
+                </div>
+                <div class="repost" style="cursor: pointer">
+                    <img th:src="@{/img/repost.svg}" alt="Like"
+                         style="width: 22px; height: 22px;">
+                    <span>Repost</span>
+                </div>
+            </div>
+        </div>
+        <div class="video-user" style="margin-top: 10px; display: flex; font-weight: 600;">
+            <div class="user-info" style="display:flex;">
+                <!--                <a th:href="${video.user.getProfileURL}">-->
+                <a th:href="@{/profile}">
+                    <!--                    <img class="user-avatar" th:src="${video.user.getAvatar()}" th:alt="${video.user}">-->
+                    <img class="user-avatar" th:src="@{/img/default_avatar.jpg}" alt="Avatar">
+                </a>
+                <div class="user-text-info" style="margin-left: 15px;">
+                    <!--                    <p class="user-name" th:text="${video.user.getName()}"-->
+                    <!--                       style="font-size: 17px; font-weight: 600; margin-bottom: 2px;">Video.Username</p>-->
+                    <p class="user-name" th:text="maximo4ka"
+                       style="font-size: 17px; font-weight: 600; margin-bottom: 2px;">Username</p>
+                    <!--                    <p class="user-followers-count" id="followers-count" th:text="${video.user.getFollowersCount()}"-->
+                    <!--                       style="font-size: 12px; color: #606060;">User Followers Count</p>-->
+                    <p class="user-followers-count" id="followers-count" th:text="3353"
+                       style="font-size: 12px; color: #606060;">User Followers Count</p>
+                </div>
+            </div>
+            <button class="follow-button btn">Отслеживать</button>
+        </div>
+        <div class="video-description-block" style="margin-top: 25px">
+            <p class="description" id="description" th:text="${video.getDescription()}"
+               style="width: 450px; white-space: normal">Description
+            </p>
+            <p id="more-button" hidden style="color: grey; cursor: pointer; width: 40px">ЕЩЁ</p>
+        </div>
+        <div class="video-comment-block">
+            <h6 id="comments-count" th:text="${comments.size()}">Comments Count</h6>
+            <div th:each="comment: ${comments}" style="margin-top: 20px;">
+                <div class="comment" style="display: flex;">
+                    <!--                    <img th:src="${comment.user.getAvatar()}" th:alt="${comment.user.getUsername()}"-->
+                    <!--                         class="comment-user-avatar" style="width: 40px; height: 40px; border-radius: 50%;">-->
+                    <img th:src="@{/img/default_avatar.jpg}" alt="Username"
+                         class="comment-user-avatar" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <div style="margin-left: 10px; line-height: 10px;">
+                        <div style="display:flex;">
+                            <!--                            <p class="comment-user-name"><b th:text="${comment.user.getUsername()}">Username</b></p>-->
+                            <p class="comment-user-name"><b th:text="Username">Username</b></p>
+                            <p class="comment-created" th:text="${#dates.formatISO(comment.getCreated())}"
+                               style="margin-left: 5px;">Created Time</p>
+                        </div>
+                        <p class="comment-text" th:text="${comment.getText()}">Comment Text</p>
+                        <!--                        <p class="comment-likes" th:text="${comment.getLikes() + 'Likes'}">Comment Likes</p>-->
+                        <!--                        <p class="comment-likes" th:text="">Comment Likes</p>-->
+                        <div class="comment-like" th:attr="liked=0" th:onclick=""
+                             style="cursor: pointer; display:flex; align-items: center;">
+                            <span class="comment-likes">323</span>
+                            <img th:src="@{/img/like.svg}" alt="Like" class="comment-like-icon"
+                                 style="width: 18px; height: 18px; margin-left: 2px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/video/video_module.js}" type="module"></script>
+<script th:src="@{/js/video/video.js}" type="text/javascript"></script>
+<script th:src="@{/js/video/update_data.js}" type="text/javascript"></script>
+
+<script th:inline="javascript">
+    function update_icon(likeOrDis) {
+        if (parseInt($(`.${likeOrDis}`).attr(`${likeOrDis}d`))) {
+            $(`.${likeOrDis}-icon`).attr('src', /*[[@{/img/like_liked.svg}]]*/)
+        } else {
+            $(`.${likeOrDis}-icon`).attr('src', /*[[@{/img/like.svg}]]*/)
+        }
+    }
+
+    function update_like() {
+        const liked = $('.like').attr('liked')
+        if (1 - parseInt(liked)) {
+            $('.like').attr('liked', 1);
+            $('.dislike').attr('disliked', 0);
+            $('.video-likes').text(parseInt($('.video-likes').text()) + 1);
+            update_icon('like');
+            update_icon('dislike');
+        } else {
+            $(".like").attr('liked', 0);
+            $('.video-likes').text(parseInt($('.video-likes').text()) - 1);
+            update_icon('like');
+        }
+    }
+
+    function update_dislike() {
+        const disliked = $('.dislike').attr('disliked')
+        if (1 - parseInt(disliked)) {
+            if ($(".like").attr('liked') == '1')
+                $('.video-likes').text(parseInt($('.video-likes').text()) - 1);
+            $(".dislike").attr('disliked', 1);
+            $(".like").attr('liked', 0);
+            update_icon('like');
+            update_icon('dislike');
+        } else {
+            $(".dislike").attr('disliked', 0);
+            update_icon('dislike');
+        }
+    }
+
+    // function update_view(time) {
+    //     $.ajax({
+    //         type: "POST",
+    //         headers: {
+    //             "X-CSRFToken": "{{ csrf_token }}",
+    //         },
+    //         data: {
+    //             video: {{ video.id }},
+    //     user: {{ video.user.id }},
+    //     time: time
+    // },
+    //     url: "{% url 'video:video-api:view' %}",
+    //         success: function (data) {
+    //         if (data.status != 200)
+    //             alert(data.error);
+    //     }
+    // })
+    // }
+
+    let sec = 0;
+    // add thymeleaf ${video.viewed}
+    let viewed = Boolean(0);
+
+    // !!! add update_view before update page !!!
+
+    const videoPlayer = document.getElementsByClassName('video-player')[0]
+    videoPlayer.addEventListener('timeupdate', function () {
+        sec = parseInt(videoPlayer.currentTime)
+        if (!viewed && sec >= 10) {
+            viewed = true;
+            updateView();
+        }
+    }, false);
+
+    $(document).ready(function () {
+        update_icon('like');
+        update_icon('dislike');
+    });
+</script>
+
+<script th:replace="base:: bootstrap"></script>
+</body>
+</html>

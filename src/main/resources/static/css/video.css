@@ -1,0 +1,45 @@
+.video-block {
+    margin: 25px 0 0 25px;
+}
+
+.video-user {
+    width: 960px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.video-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    font-size: 16px;
+    margin-left: 20px;
+}
+
+.video-actions div {
+    padding: 3px 8px;
+}
+
+.video-actions div:hover {
+
+}
+
+.follow-button {
+    max-height: 45px;
+    line-height: 0;
+    margin-right: 30px;
+    background: #006767;
+    border: 2px solid #006767;
+    color: white;
+}
+
+.follow-button:hover {
+    border: 2px solid #006767;
+    color: #006767;
+}

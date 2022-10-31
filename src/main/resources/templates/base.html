@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head (title, css_path)">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <title th:text="${title}">Title</title>
+    <link rel="stylesheet" th:href="${css_path}">
+</head>
+<body>
+<div class="navbar" th:fragment="navbar (is_auth)">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="joovie-brand" th:href="@{/}"
+           style="padding-left: 10px;font-size: 22px; text-decoration: none; color: black">Joovie</a>
+        <div class="collapse navbar-collapse" id="navbarNav" style="padding-left: 10px">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/trends}">Тренды</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/followers}">Подписки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/history}">История</a>
+                </li>
+            </ul>
+        </div>
+        <style>
+            .login, .profile {
+                color: black;
+                font-size: 18px;
+                margin-right: 20px;
+                padding: 2px 5px;
+                border: 2px solid black;
+                border-radius: 7px;
+            }
+        </style>
+
+        <a th:if="${#authentication.getPrincipal() == 'anonymousUser'}" th:href="@{/login}" style="text-decoration: none">
+            <div class="login">Login</div>
+        </a>
+        <a th:unless="${#authentication.getPrincipal() == 'anonymousUser'}" th:href="@{/profile}" style="text-decoration: none">
+            <div class="profile">Profile</div>
+        </a>
+    </nav>
+</div>
+<script th:fragment="bootstrap" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>
