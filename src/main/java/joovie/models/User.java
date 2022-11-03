@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +32,9 @@ public class User {
     private String username;
 
     private String avatar;
+
+    @Size(max = 1024)
+    private String description;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -57,5 +62,14 @@ public class User {
         this.avatar = avatar;
         this.role = role;
         this.status = status;
+    }
+
+    public String getAbsoluteUrl(HttpServletRequest request) {
+        return "%s://%s:%d/channel/%s".formatted(
+                request.getScheme(),
+                request.getServerName(),
+                request.getServerPort(),
+                this.UID
+        );
     }
 }

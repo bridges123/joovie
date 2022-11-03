@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="base :: head (${'' + ' - Joovie'}, @{/css/profile.css})"></head>
+<head th:replace="base :: head (${user.getUsername() + ' - Joovie'}, @{/css/profile.css})"></head>
 <body>
-  <div th:replace="base :: navbar"></div>
+  <div th:replace="base :: navbar ('Profile')"></div>
   <div class="profile-block">
     <div class="profile-window">
       <h2 th:text="${user.getUsername()}">Username</h2>
@@ -20,7 +20,7 @@
           <div class="video-info">
             <p class="video-name" th:text="${video.getTitle()}" style="font-size: 18px;">Title</p>
             <div class="video-text-info">
-              <p class="video-views" th:text="${video.getViews()} + 'просмотров'" style="font-size: 12px;">Кол-во просмотров</p>
+              <p class="video-views" th:text="${video.getViews()} + ' просмотров'" style="font-size: 12px;">Кол-во просмотров</p>
               <p class="video-datetime" th:text="${#dates.formatISO(video.getUploaded())}" style="font-size: 12px;">Date Uploaded</p>
             </div>
           </div>
@@ -28,7 +28,7 @@
       </a>
     </div>
   </div>
-  <script th:src="@{/js/profile/profile.js}" type="module"></script>
+  <script th:src="@{/js/profile/perform_video_dt.js}" type="module"></script>
   <script th:replace="base :: bootstrap"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="base :: head (${video.getTitle() + ' - Joovie'}, @{/css/video.css})"></head>
 <body>
-<div th:replace="base :: navbar"></div>
+<div th:replace="base :: navbar ('Video')"></div>
 
 <div class="video-block">
     <video class="video-player" th:src="${video.getVideo()}" controls="controls" autoplay="autoplay"
@@ -54,7 +54,8 @@
                        style="font-size: 17px; font-weight: 600; margin-bottom: 2px;">Username</p>
                     <!--                    <p class="user-followers-count" id="followers-count" th:text="${video.user.getFollowersCount()}"-->
                     <!--                       style="font-size: 12px; color: #606060;">User Followers Count</p>-->
-                    <p class="user-followers-count" id="followers-count" th:text="3353"
+                    <p class="user-followers-count" id="followers-count"
+                       th:text="${video.getUser().getFollowers().size()}"
                        style="font-size: 12px; color: #606060;">User Followers Count</p>
                 </div>
             </div>

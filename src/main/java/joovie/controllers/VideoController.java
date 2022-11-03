@@ -24,7 +24,11 @@ public class VideoController {
 
     @GetMapping
     public String main(Model model) {
-//        model.addAttribute("videos", videoRepository.findAll());
+        List<Video> videos = videoRepository.findAll();
+        model.addAttribute(
+                "videos",
+                videos.subList(0, Math.min(videos.size(), 20))
+        );
         return "video/main";
     }
 
@@ -59,12 +63,6 @@ public class VideoController {
     @GetMapping("/trends")
     public String trends(Model model) {
         return "video/trends";
-    }
-
-    @GetMapping("/followers")
-    @PreAuthorize("hasAuthority('developers:read')")
-    public String followers(Model model) {
-        return "video/followers";
     }
 
     @GetMapping("/history")

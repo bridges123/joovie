@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: head (${'Отслеживаемые каналы - Joovie'}, @{/css/following.css})"></head>
+<body>
+<div th:replace="base :: navbar ('Following')"></div>
+
+<div class="follow-list" th:each="channel : ${channels}" style="text-align: center;">
+    <a th:href="${channel.getAbsoluteUrl(#request)}" style="color: black; text-decoration: none">
+        <div class="channel-block"
+             style="display:flex; align-items: center; width: 900px; justify-content: space-between;">
+            <img th:src="${channel.getAvatar()}" alt="Превью"
+                 style="width: 130px; height: 130px;">
+            <div class="channel-info" style="text-align: left;">
+                <div class="channel-name" th:text="${channel.getUsername()}" style="font-size: 22px;">Title</div>
+                <div class="channel-text-info">
+                    <div class="channel-followers-videos" style="display:flex;">
+                        <p class="channel-followers" th:text="${channel.getFollowers().size()}"
+                           style="font-size: 12px;">Кол-во подписчиков</p>
+                        <span style="margin: 0 5px">*</span>
+                        <p class="channel-videos-count" th:text="${channel.getVideos().size()}"
+                           style="font-size: 12px;">Кол-во видео</p>
+                    </div>
+                    <p class="channel-description" th:text="${channel.getDescription()}" style="font-size: 12px;">
+                        Описание канала</p>
+                </div>
+            </div>
+            <button class="follow-button btn followed">Отписаться</button>
+        </div>
+    </a>
+</div>
+
+
+<script th:replace="base :: bootstrap"></script>
+</body>
+</html>

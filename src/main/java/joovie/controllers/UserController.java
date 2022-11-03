@@ -31,4 +31,17 @@ public class UserController {
         model.addAttribute("videos", currentUser.getVideos());
         return "user/profile";
     }
+
+    @GetMapping("/following")
+    public String followsPage(@AuthenticationPrincipal User user, Model model) {
+        if (user == null)
+            return "redirect:/logout";
+
+        joovie.models.User currentUser = userRepository.findByEmail(user.getUsername()).orElse(null);
+        if (currentUser == null)
+            return "redirect:/logout";
+
+        model.addAttribute("channels", currentUser.getFollowing());
+        return "user/following";
+    }
 }
