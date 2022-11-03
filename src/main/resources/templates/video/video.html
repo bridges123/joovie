@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="base :: head (${video.getTitle() + ' - Joovie'}, @{/css/video.css})"></head>
 <body>
-<div th:replace="base :: navbar (false)"></div>
+<div th:replace="base :: navbar"></div>
 
 <div class="video-block">
     <video class="video-player" th:src="${video.getVideo()}" controls="controls" autoplay="autoplay"

@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
 
 @Configuration
 @EnableWebSecurity
@@ -26,6 +27,11 @@ public class WebSecurityConfig {
 
     public WebSecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+    public AuthenticationPrincipalArgumentResolver authenticationPrincipalArgumentResolver() {
+        return new AuthenticationPrincipalArgumentResolver();
     }
 
 //    @Bean

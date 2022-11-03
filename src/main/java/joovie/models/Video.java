@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +52,6 @@ public class Video {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "video")
     private List<Comment> comments;
 
-
     public Video(String uid, String title, String description, String video,
                  String preview, Date uploaded, int views, String tags, List<Comment> comments) {
         this.uid = uid;
@@ -63,5 +63,14 @@ public class Video {
         this.views = views;
         this.tags = tags;
         this.comments = comments;
+    }
+
+    public String getAbsoluteUrl(HttpServletRequest request) {
+        return "%s://%s:%d/video?v=%s".formatted(
+                request.getScheme(),
+                request.getServerName(),
+                request.getServerPort(),
+                this.uid
+        );
     }
 }

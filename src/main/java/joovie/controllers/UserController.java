@@ -1,15 +1,11 @@
 package joovie.controllers;
 
-import joovie.models.User;
 import joovie.repos.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -26,9 +22,13 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String profilePage(Model model) {
-//        model.addAttribute("profile", );
-//        model.addAttribute("videos", )
+    public String profilePage(@AuthenticationPrincipal User user, Model model) {
+        joovie.models.User currentUser = userRepository.findByEmail(user.getUsername()).orElse(null);
+        if (currentUser == null) {
+            return "redirect:/logout";
+        }
+        model.addAttribute("user", currentUser);
+        model.addAttribute("videos", currentUser.getVideos());
         return "user/profile";
     }
 }
