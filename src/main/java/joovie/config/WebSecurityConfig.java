@@ -40,10 +40,10 @@ public class WebSecurityConfig {
                 .authenticationProvider(daoAuthenticationProvider())
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/", "/video**", "/js/**", "/css/**").permitAll()
+//                        .antMatchers("/", "/video**", "/js/**", "/css/**").permitAll()
                         .antMatchers("/profile").hasAuthority(Permission.DEVELOPERS_READ.getPermission())
                         .antMatchers("/admin").hasRole(Permission.DEVELOPERS_WRITE.getPermission())
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")

@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface VideoRepository extends JpaRepository<Video, Long> {
     Optional<Video> findById(long id);
+    Optional<Video> findByUid(String uid);
     List<Video> findByTitleContains(String name);
 }

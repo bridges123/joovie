@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.List;
 
 
 @Entity
@@ -29,12 +30,15 @@ public class User {
 
     private String avatar;
 
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Video> videos;
+
 
     public User(String UID, String email, String password, String username, String avatar, Role role, Status status) {
         this.UID = UID;

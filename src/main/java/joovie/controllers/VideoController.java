@@ -2,15 +2,13 @@ package joovie.controllers;
 
 import joovie.models.Video;
 import joovie.repos.VideoRepository;
+import joovie.services.UIDGenerator;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.transaction.TransactionScoped;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,38 +17,36 @@ import java.util.List;
 @Controller
 public class VideoController {
     private final VideoRepository videoRepository;
-//    private final VideoService videoService;
 
-    public VideoController(VideoRepository videoRepository/*, VideoService videoService*/) {
+    public VideoController(VideoRepository videoRepository) {
         this.videoRepository = videoRepository;
-//        this.videoService = videoService;
     }
 
     @GetMapping
     public String main(Model model) {
-        model.addAttribute("videos", videoRepository.findAll());
+//        model.addAttribute("videos", videoRepository.findAll());
         return "video/main";
     }
 
     @GetMapping("/add-video")
     public String addVideo() {
         videoRepository.save(new Video(
-                "vhdk56yjkgf",
+                UIDGenerator.generateUID(),
                 "Maximka",
                 "",
-                "fgjdsfkgl",
-                "dfsgsdfgdsfg",
+                "video_path",
+                "preview_path",
                 new Date(),
-                35,
-                "",
+                12390,
+                "tags",
                 new ArrayList<>()
         ));
         return "redirect:/";
     }
 
     @GetMapping("/video")
-    public String showVideo(@RequestParam("v") long video_id, Model model) {
-        Video video = videoRepository.findById(video_id).orElse(null);
+    public String showVideo(@RequestParam("v") String uid, Model model) {
+        Video video = videoRepository.findByUid(uid).orElse(null);
         if (video == null)
             return "redirect:/";
 

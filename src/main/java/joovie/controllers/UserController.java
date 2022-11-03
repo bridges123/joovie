@@ -25,8 +25,10 @@ public class UserController {
         return "user/login";
     }
 
-    @PostMapping("/login")
-    public String loginSuccess() {
-        return "redirect:/video?v=1";
+    @GetMapping("/profile")
+    public String profilePage(Model model) {
+//        model.addAttribute("profile", );
+//        model.addAttribute("videos", )
+        return "user/profile";
     }
 }

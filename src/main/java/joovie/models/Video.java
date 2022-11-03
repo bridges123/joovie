@@ -44,7 +44,9 @@ public class Video {
 
     private String tags; // = models.JSONField('Тэги')
 
-    // USER
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "video")
     private List<Comment> comments;
