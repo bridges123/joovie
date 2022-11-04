@@ -1,4 +1,4 @@
-package joovie.models;
+package joovie.models.user;
 
 public enum Permission {
     DEVELOPERS_READ("developers:read"),

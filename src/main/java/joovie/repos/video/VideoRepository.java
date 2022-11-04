@@ -1,6 +1,6 @@
-package joovie.repos;
+package joovie.repos.video;
 
-import joovie.models.Video;
+import joovie.models.video.Video;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

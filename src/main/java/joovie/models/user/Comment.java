@@ -1,5 +1,6 @@
-package joovie.models;
+package joovie.models.user;
 
+import joovie.models.video.Video;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

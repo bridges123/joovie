@@ -1,6 +1,6 @@
-package joovie.repos;
+package joovie.repos.user;
 
-import joovie.models.User;
+import joovie.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

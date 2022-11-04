@@ -1,7 +1,7 @@
 package joovie.security;
 
-import joovie.models.User;
-import joovie.repos.UserRepository;
+import joovie.models.user.User;
+import joovie.repos.user.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -1,4 +1,4 @@
-package joovie.models;
+package joovie.models.user;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

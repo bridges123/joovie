@@ -1,7 +1,7 @@
-package joovie.controllers;
+package joovie.controllers.video;
 
-import joovie.models.Video;
-import joovie.repos.VideoRepository;
+import joovie.models.video.Video;
+import joovie.repos.video.VideoRepository;
 import joovie.services.UIDGenerator;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

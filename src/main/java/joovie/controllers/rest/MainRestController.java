@@ -1,12 +1,11 @@
-package joovie.controllers;
+package joovie.controllers.rest;
 
-import joovie.models.Comment;
-import joovie.repos.CommentRepository;
-import joovie.repos.VideoRepository;
+import joovie.models.user.Comment;
+import joovie.repos.user.CommentRepository;
+import joovie.repos.video.VideoRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

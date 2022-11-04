@@ -1,7 +1,7 @@
 package joovie.security;
 
-import joovie.models.Status;
-import joovie.models.User;
+import joovie.models.user.Status;
+import joovie.models.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

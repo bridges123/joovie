@@ -1,6 +1,6 @@
-package joovie.controllers;
+package joovie.controllers.user;
 
-import joovie.repos.UserRepository;
+import joovie.repos.user.UserRepository;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public String profilePage(@AuthenticationPrincipal User user, Model model) {
-        joovie.models.User currentUser = userRepository.findByEmail(user.getUsername()).orElse(null);
+        joovie.models.user.User currentUser = userRepository.findByEmail(user.getUsername()).orElse(null);
         if (currentUser == null) {
             return "redirect:/logout";
         }
@@ -37,7 +37,7 @@ public class UserController {
         if (user == null)
             return "redirect:/logout";
 
-        joovie.models.User currentUser = userRepository.findByEmail(user.getUsername()).orElse(null);
+        joovie.models.user.User currentUser = userRepository.findByEmail(user.getUsername()).orElse(null);
         if (currentUser == null)
             return "redirect:/logout";
 
