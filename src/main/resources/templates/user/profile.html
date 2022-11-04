@@ -15,7 +15,7 @@
          style="display: inline-flex; width: 1000px">
       <a th:href="${video.getAbsoluteUrl(#request)}" style="color: black; text-decoration: none">
         <div class="video-block">
-          <img th:src="${video.getPreview()}" alt="Превью"
+          <img th:src="${video.getPreview()}" th:alt="${video.getTitle()}"
                style="width: 213px; height: 120px; border: 2px solid"><br>
           <div class="video-info">
             <p class="video-name" th:text="${video.getTitle()}" style="font-size: 18px;">Title</p>
@@ -28,7 +28,7 @@
       </a>
     </div>
   </div>
-  <script th:src="@{/js/profile/perform_video_dt.js}" type="module"></script>
+  <script th:src="@{/js/user/perform_video_dt.js}" type="module"></script>
   <script th:replace="base :: bootstrap"></script>
 </body>
 </html>

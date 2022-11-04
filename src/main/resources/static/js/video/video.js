@@ -1,35 +1,7 @@
-function abbreviateNumber(value) {
-    let newValue = value;
-    if (value >= 1000) {
-        const suffixes = ['', 'тыс.', 'млн.', 'млрд.', 'трлн.'];
-        const suffixNum = Math.floor(('' + value).length / 3);
-        let shortValue = '';
-        for (let precision = 2; precision >= 1; precision--) {
-            shortValue = parseFloat((suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toPrecision(precision))
-            const dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g, '');
-            if (dotLessShortValue.length <= 2) {
-                break
-            }
-        }
-        if (shortValue % 1 !== 0) shortValue = shortValue.toFixed(1)
-        newValue = shortValue + ' ' + suffixes[suffixNum]
-    }
-    return newValue;
-}
+import {abbreviateNumber, performFollowersCount} from "../perform_data.js";
 
-const userFollowersCount = document.getElementById('followers-count');
-const FC = userFollowersCount.textContent;
-const newFC = abbreviateNumber(FC);
-if (FC && newFC) {
-    if (FC > 999 || !(FC % 100))
-        userFollowersCount.textContent = `${newFC} подписчиков`
-    else if (FC % 10 == 1)
-        userFollowersCount.textContent = `${newFC} подписчик`;
-    else if ([2, 3, 4].indexOf(FC % 10) > -1)
-        userFollowersCount.textContent = `${newFC} подписчика`;
-    else
-        userFollowersCount.textContent = `${newFC} подписчиков`;
-}
+
+performFollowersCount('followers-count');
 
 const videoViews = document.getElementById('video-views');
 const VC = videoViews.textContent;

@@ -1,4 +1,4 @@
-import {get_dt_counts} from "../perform_dt.js";
+import {get_dt_counts} from "../perform_data.js";
 
 
 for (let comment_dt of document.querySelectorAll('.comment-created')) {
