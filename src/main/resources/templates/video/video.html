@@ -29,12 +29,12 @@
                      th:onclick="update_dislike()">
                     <!--                <div class="dislike" th:attr="disliked=${video.getDisliked()}" style="cursor: pointer"-->
                     <!--                     th:onclick="update_dislike()">-->
-                    <img th:src="@{/img/like.svg}" alt="Like" class="dislike-icon"
+                    <img th:src="@{/img/like.svg}" alt="Dislike" class="dislike-icon"
                          style="width: 22px; height: 22px; transform: rotate(180deg);">
                     <span>Dislike</span>
                 </div>
                 <div class="repost" style="cursor: pointer">
-                    <img th:src="@{/img/repost.svg}" alt="Like"
+                    <img th:src="@{/img/repost.svg}" alt="Repost"
                          style="width: 22px; height: 22px;">
                     <span>Repost</span>
                 </div>
@@ -45,7 +45,8 @@
                 <!--                <a th:href="${video.user.getProfileURL}">-->
                 <a th:href="@{/profile}">
                     <!--                    <img class="user-avatar" th:src="${video.user.getAvatar()}" th:alt="${video.user}">-->
-                    <img class="user-avatar" th:src="@{/img/default_avatar.jpg}" alt="Avatar">
+                    <img class="user-avatar" th:src="@{/img/default_avatar.jpg}"
+                         th:alt="${video.getUser().getUsername()}">
                 </a>
                 <div class="user-text-info" style="margin-left: 15px;">
                     <!--                    <p class="user-name" th:text="${video.user.getName()}"-->
@@ -71,14 +72,18 @@
             <h6 id="comments-count" th:text="${comments.size()}">Comments Count</h6>
             <div th:each="comment: ${comments}" style="margin-top: 20px;">
                 <div class="comment" style="display: flex;">
-                    <!--                    <img th:src="${comment.user.getAvatar()}" th:alt="${comment.user.getUsername()}"-->
-                    <!--                         class="comment-user-avatar" style="width: 40px; height: 40px; border-radius: 50%;">-->
-                    <img th:src="@{/img/default_avatar.jpg}" alt="Username"
-                         class="comment-user-avatar" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <a th:href="${comment.getUser().getAbsoluteUrl(#request)}">
+                        <img th:src="@{/img/default_avatar.jpg}" th:alt="${comment.getUser().getUsername()}"
+                             class="comment-user-avatar" style="width: 40px; height: 40px; border-radius: 50%;">
+                    </a>
                     <div style="margin-left: 10px; line-height: 10px;">
                         <div style="display:flex;">
-                            <!--                            <p class="comment-user-name"><b th:text="${comment.user.getUsername()}">Username</b></p>-->
-                            <p class="comment-user-name"><b th:text="Username">Username</b></p>
+                            <a th:href="${comment.getUser().getAbsoluteUrl(#request)}"
+                               style="text-decoration: none; color: black">
+                                <p class="comment-user-name">
+                                    <b th:text="${comment.getUser().getUsername()}">Username</b>
+                                </p>
+                            </a>
                             <p class="comment-created" th:text="${#dates.formatISO(comment.getCreated())}"
                                style="margin-left: 5px;">Created Time</p>
                         </div>
@@ -99,8 +104,8 @@
 </div>
 
 <script th:src="@{/js/video/video_module.js}" type="module"></script>
-<script th:src="@{/js/video/video.js}" type="text/javascript"></script>
-<script th:src="@{/js/video/update_data.js}" type="text/javascript"></script>
+<script th:src="@{/js/video/video.js}" type="module"></script>
+<!--<script th:src="@{/js/video/update_data.js}" type="text/javascript"></script>-->
 
 <script th:inline="javascript">
     function update_icon(likeOrDis) {

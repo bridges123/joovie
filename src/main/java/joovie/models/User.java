@@ -45,6 +45,9 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Video> videos;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Comment> comments;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="followers_rel",
             joinColumns={@JoinColumn(name="user_id")},
