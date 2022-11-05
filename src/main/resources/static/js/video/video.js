@@ -54,3 +54,13 @@ moreButton.onclick = function () {
         this.textContent = "ЕЩЁ";
     }
 };
+
+$('.follow-button').click(function() {
+    const followed = $(this).toggleClass("followed").hasClass("followed");
+    if (followed) {
+        $(this).text("Отписаться");
+    } else {
+        $(this).text("Отслеживать");
+    }
+    // request
+})

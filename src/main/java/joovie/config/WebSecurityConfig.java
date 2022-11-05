@@ -28,20 +28,14 @@ public class WebSecurityConfig {
         return new AuthenticationPrincipalArgumentResolver();
     }
 
-//    @Bean
-//    public AuthenticationManagerBuilder configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(daoAuthenticationProvider());
-//        return auth;
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authenticationProvider(daoAuthenticationProvider())
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-//                        .antMatchers("/", "/video**", "/js/**", "/css/**").permitAll()
                         .antMatchers("/profile").hasAuthority(Permission.DEVELOPERS_READ.getPermission())
+                        .antMatchers("/following").hasAuthority(Permission.DEVELOPERS_READ.getPermission())
                         .antMatchers("/admin").hasRole(Permission.DEVELOPERS_WRITE.getPermission())
                         .anyRequest().permitAll()
                 )
@@ -60,25 +54,6 @@ public class WebSecurityConfig {
 
         return http.build();
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.builder()
-//                        .username("user")
-//                        .password(passwordEncoder().encode("password"))
-//                        .roles(Role.USER.name())
-//                        .build();
-//
-//        UserDetails admin =
-//                User.builder()
-//                        .username("admin")
-//                        .password(passwordEncoder().encode("admin"))
-//                        .roles(Role.ADMIN.name())
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user, admin);
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

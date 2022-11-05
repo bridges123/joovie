@@ -26,20 +26,29 @@
     padding: 3px 8px;
 }
 
-.video-actions div:hover {
-
-}
-
 .follow-button {
-    max-height: 45px;
+    height: 45px;
+    width: 160px;
     line-height: 0;
-    margin-right: 30px;
-    background: #006767;
     border: 2px solid #006767;
+    background: #006767;
     color: white;
 }
 
 .follow-button:hover {
-    border: 2px solid #006767;
-    color: #006767;
+    background: #004747;
+    border: 2px solid #004747;
+    color: white;
+}
+
+.followed {
+    background: #3f0198;
+    border: 2px solid #3f0198;
+    color: white;
+}
+
+.followed:hover {
+    border: 2px solid #2f0470;
+    background: #2f0470;
+    color: white;
 }

@@ -26,7 +26,7 @@
                 </div>
             </div>
         </a>
-        <button class="follow-button btn followed">Отписаться</button>
+        <button th:classappend="${(true) ? 'followed' : ''}" class="follow-button btn followed">Отписаться</button>
     </div>
 </div>
 

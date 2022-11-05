@@ -6,9 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 
@@ -25,16 +24,17 @@ public class User {
 
     private String UID;
 
-    @Email(message = "Invalid email")
+    @Email(message = "Некорректный E-Mail")
     private String email;
 
     private String password;
 
+    @NotNull(message = "Введите имя пользователя")
     private String username;
 
     private String avatar;
 
-    @Size(max = 1024)
+    @Max(value = 1024, message = "Слишком длинное описание (макс. 1024 символа)")
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -58,15 +58,30 @@ public class User {
     @ManyToMany(mappedBy = "followers")
     private Set<User> following;
 
-    public User(String UID, String email, String password, String username, String avatar, Role role, Status status) {
+    public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, List<Video> videos, List<Comment> comments, Set<User> followers, Set<User> following) {
         this.UID = UID;
         this.email = email;
         this.password = password;
         this.username = username;
         this.avatar = avatar;
+        this.description = description;
         this.role = role;
         this.status = status;
+        this.videos = videos;
+        this.comments = comments;
+        this.followers = followers;
+        this.following = following;
     }
+
+    //    public User(String UID, String email, String password, String username, String avatar, Role role, Status status) {
+//        this.UID = UID;
+//        this.email = email;
+//        this.password = password;
+//        this.username = username;
+//        this.avatar = avatar;
+//        this.role = role;
+//        this.status = status;
+//    }
 
     public String getAbsoluteUrl(HttpServletRequest request) {
         return "%s://%s:%d/channel/%s".formatted(
