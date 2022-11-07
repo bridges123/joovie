@@ -49,13 +49,13 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String profilePage(@AuthenticationPrincipal User user, Model model) {
-        joovie.models.user.User currentUser = userRepository.findByEmail(user.getUsername()).orElse(null);
-        if (currentUser == null) {
+    public String profilePage(@AuthenticationPrincipal User authUser, Model model) {
+        joovie.models.user.User user = userRepository.findByEmail(authUser.getUsername()).orElse(null);
+        if (user == null) {
             return "redirect:/logout";
         }
-        model.addAttribute("user", currentUser);
-        model.addAttribute("videos", currentUser.getVideos());
+        model.addAttribute("user", user);
+        model.addAttribute("videos", user.getVideos());
         return "user/profile";
     }
 

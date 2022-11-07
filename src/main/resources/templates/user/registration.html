@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Spring Security Example </title>
+</head>
+<body>
+<form th:action="@{/register}" th:method="POST" th:object="${user}" class="form-register">
+    <label for="username">Имя пользователя:</label><input type="text" id="username" th:field="*{username}" placeholder="Имя пользователя"/><br>
+    <div style="color: red;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
+
+    <label for="password">Пароль:</label><input type="password" id="password" th:field="*{password}" placeholder="Пароль"/><br>
+    <div style="color: red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+
+    <label for="email">E-Mail:</label><input type="text" id="email" th:field="*{email}" placeholder="E-Mail"/><br>
+    <div style="color: red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">E-Mail Error</div>
+
+    <label for="avatar">Аватар:</label><input type="file" id="avatar" th:field="*{avatar}" placeholder="Аватар"/><br>
+    <div style="color: red;" th:if="${#fields.hasErrors('avatar')}" th:errors="*{avatar}">Avatar Error</div>
+
+    <button class="btn btn-primary btn-lg btn-block" type="submit">Регистрация</button>
+</form>
+</body>
+</html>

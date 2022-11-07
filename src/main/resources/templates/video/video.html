@@ -60,7 +60,7 @@
                        style="font-size: 12px; color: #606060;">User Followers Count</p>
                 </div>
             </div>
-            <button th:classappend="${(video.getId() == 1) ? 'followed' : ''}" th:text="${(video.getId() == 1) ? 'Отписаться' : 'Отслеживать'}"
+            <button th:classappend="${followed ? 'followed' : ''}" th:text="${followed ? 'Отписаться' : 'Отслеживать'}"
                     class="follow-button btn">Отслеживать
             </button>
         </div>
