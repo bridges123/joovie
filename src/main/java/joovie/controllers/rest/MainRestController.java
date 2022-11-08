@@ -1,6 +1,6 @@
 package joovie.controllers.rest;
 
-import joovie.models.user.Comment;
+import joovie.models.video.Comment;
 import joovie.repos.user.CommentRepository;
 import joovie.repos.video.VideoRepository;
 import org.springframework.security.access.prepost.PreAuthorize;

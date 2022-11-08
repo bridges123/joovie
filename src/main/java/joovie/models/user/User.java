@@ -1,5 +1,6 @@
 package joovie.models.user;
 
+import joovie.models.video.Comment;
 import joovie.models.video.Video;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,7 +51,13 @@ public class User {
     private List<Comment> comments;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="followers_rel",
+    @JoinTable(name="likes",
+            joinColumns={@JoinColumn(name="user_id")},
+            inverseJoinColumns={@JoinColumn(name="video_id")})
+    private List<Video> likedVideos;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="follows",
             joinColumns={@JoinColumn(name="user_id")},
             inverseJoinColumns={@JoinColumn(name="follower_id")})
     private Set<User> followers;

@@ -60,20 +60,24 @@ public class VideoController {
                             @RequestParam("v") String uid, Model model) {
         Video video = videoRepository.findByUid(uid).orElse(null);
         if (video == null)
-            return "redirect:/";
+            return "redirect:/"; // add 404 page
 
         joovie.models.user.User user = null;
         boolean followed = false;
+        boolean liked = false;
         if (authUser != null) {
             user = userRepository.findByEmail(authUser.getUsername()).orElse(null);
             if (user == null) {
                 return "redirect:/logout";
             }
             followed = userRepository.userIsFollowedOn(user.getId(), video.getUser().getId());
+            liked = userRepository.videoIsLikedByUser(user.getId(), video.getId());
         }
+
         model.addAttribute("user", user);
         model.addAttribute("followed", followed);
         model.addAttribute("video", video);
+        model.addAttribute("liked", liked);
         model.addAttribute("comments", video.getComments());
 
         return "video/video";

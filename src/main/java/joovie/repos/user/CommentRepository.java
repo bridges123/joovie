@@ -1,6 +1,6 @@
 package joovie.repos.user;
 
-import joovie.models.user.Comment;
+import joovie.models.video.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

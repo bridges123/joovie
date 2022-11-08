@@ -16,7 +16,7 @@
             <span class="video-date" th:text="${#dates.format(video.getUploaded(), 'd MMM yyyy')}"
                   style="font-weight: 600;">Uploaded</span>
             <div class="video-actions">
-                <div class="like" th:attr="liked=1" style="cursor: pointer; display: flex; align-items: center;"
+                <div class="like" th:attr="liked=${liked.compareTo(false)}" style="cursor: pointer; display: flex; align-items: center;"
                      th:onclick="update_like()">
                     <!--                <div class="like" th:attr="liked=${video.getLiked()}" style="cursor: pointer; display: flex; align-items: center;"-->
                     <!--                     th:onclick="update_like()">-->
@@ -119,7 +119,7 @@
     }
 
     function update_like() {
-        const liked = $('.like').attr('liked')
+        const liked = $('.like').attr('liked');
         if (1 - parseInt(liked)) {
             $('.like').attr('liked', 1);
             $('.dislike').attr('disliked', 0);

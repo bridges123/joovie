@@ -1,6 +1,6 @@
-package joovie.models.user;
+package joovie.models.video;
 
-import joovie.models.video.Video;
+import joovie.models.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,8 +18,6 @@ import java.util.List;
 @Getter
 @Setter
 public class Comment {
-    // USER
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -46,10 +44,9 @@ public class Comment {
     @DateTimeFormat
     private Date created;
 
-    @DateTimeFormat
-    private Date updated;
+    private boolean updated;
 
-    public Comment(Video video, Comment parent, List<Comment> childrenComments, String text, Date created, Date updated) {
+    public Comment(Video video, Comment parent, List<Comment> childrenComments, String text, Date created, boolean updated) {
         this.video = video;
         this.parent = parent;
         this.childrenComments = childrenComments;

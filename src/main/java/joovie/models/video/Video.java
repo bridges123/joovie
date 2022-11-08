@@ -1,6 +1,5 @@
 package joovie.models.video;
 
-import joovie.models.user.Comment;
 import joovie.models.user.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -25,27 +25,27 @@ public class Video {
     private long id;
 
     @NotEmpty(message = "Empty UID")
-    private String uid; // = models.CharField('Ссылка', max_length=255, editable=False)
+    private String uid;
 
     @NotEmpty(message = "Empty Title")
     @Size(min = 2, max = 128, message = "Incorrect title length (2-128).")
-    private String title; // = models.CharField('Название', max_length=255)
+    private String title;
 
     @Size(max = 2048, message = "Incorrect description length (max 2048).")
-    private String description; // = models.TextField('Описание')
+    private String description;
 
     @NotEmpty(message = "Empty Video URL")
-    private String video; // = models.FileField('Видео-файл', upload_to=user_directory_path)
+    private String video;
 
     @NotEmpty(message = "Empty Preview URL")
-    private String preview; // = models.ImageField('Превью', upload_to='previews/', blank=True)
+    private String preview;
 
     @DateTimeFormat
-    private Date uploaded; // = models.DateTimeField('Дата загрузки', auto_now_add=True)
+    private Date uploaded;
 
-    private int views; // = models.IntegerField('Кол-во просмотров', default=0, editable=False)
+    private int views;
 
-    private String tags; // = models.JSONField('Тэги')
+    private String tags;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -53,6 +53,9 @@ public class Video {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "video")
     private List<Comment> comments;
+
+    @ManyToMany(mappedBy = "likedVideos")
+    private List<User> likedUsers;
 
     public Video(String uid, String title, String description, String video,
                  String preview, Date uploaded, int views, String tags, List<Comment> comments) {
