@@ -1,6 +1,8 @@
 package joovie.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import joovie.models.video.Comment;
+import joovie.models.video.Like;
 import joovie.models.video.Video;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,22 +53,19 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Comment> comments;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="likes",
-            joinColumns={@JoinColumn(name="user_id")},
-            inverseJoinColumns={@JoinColumn(name="video_id")})
-    private List<Video> likedVideos;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Like> likes;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="follows",
-            joinColumns={@JoinColumn(name="user_id")},
-            inverseJoinColumns={@JoinColumn(name="follower_id")})
+    @JoinTable(name = "follows",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "follower_id")})
     private Set<User> followers;
 
     @ManyToMany(mappedBy = "followers")
     private Set<User> following;
 
-    public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, List<Video> videos, List<Comment> comments, Set<User> followers, Set<User> following) {
+    public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, List<Video> videos, List<Comment> comments, List<Like> likes, Set<User> followers, Set<User> following) {
         this.UID = UID;
         this.email = email;
         this.password = password;
@@ -76,19 +76,10 @@ public class User {
         this.status = status;
         this.videos = videos;
         this.comments = comments;
+        this.likes = likes;
         this.followers = followers;
         this.following = following;
     }
-
-    //    public User(String UID, String email, String password, String username, String avatar, Role role, Status status) {
-//        this.UID = UID;
-//        this.email = email;
-//        this.password = password;
-//        this.username = username;
-//        this.avatar = avatar;
-//        this.role = role;
-//        this.status = status;
-//    }
 
     public String getAbsoluteUrl(HttpServletRequest request) {
         return "%s://%s:%d/channel/%s".formatted(

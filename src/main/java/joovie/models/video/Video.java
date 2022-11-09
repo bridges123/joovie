@@ -1,5 +1,6 @@
 package joovie.models.video;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import joovie.models.user.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -19,6 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,11 +55,10 @@ public class Video {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "video")
     private List<Comment> comments;
 
-    @ManyToMany(mappedBy = "likedVideos")
-    private List<User> likedUsers;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "video")
+    private List<Like> likes;
 
-    public Video(String uid, String title, String description, String video,
-                 String preview, Date uploaded, int views, String tags, List<Comment> comments) {
+    public Video(String uid, String title, String description, String video, String preview, Date uploaded, int views, String tags, User user, List<Comment> comments, List<Like> likes) {
         this.uid = uid;
         this.title = title;
         this.description = description;
@@ -67,7 +67,9 @@ public class Video {
         this.uploaded = uploaded;
         this.views = views;
         this.tags = tags;
+        this.user = user;
         this.comments = comments;
+        this.likes = likes;
     }
 
     public String getAbsoluteUrl(HttpServletRequest request) {

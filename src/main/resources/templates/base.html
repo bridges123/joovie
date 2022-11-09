@@ -42,10 +42,10 @@
         <a th:if="${page == 'Profile'}" th:href="@{/logout}" style="text-decoration: none">
             <div class="logout">Logout</div>
         </a>
-        <a th:if="${#authentication.getPrincipal() == 'anonymousUser'}" th:href="@{/login}" style="text-decoration: none">
+        <a th:if="${#request.getRemoteUser() == null}" th:href="@{/login}" style="text-decoration: none">
             <div class="login">Login</div>
         </a>
-        <a th:if="${#authentication.getPrincipal() != 'anonymousUser' && page != 'Profile'}" th:href="@{/profile}" style="text-decoration: none">
+        <a th:if="${#request.getRemoteUser() != null && page != 'Profile'}" th:href="@{/profile}" style="text-decoration: none">
             <div class="profile">Profile</div>
         </a>
     </nav>
