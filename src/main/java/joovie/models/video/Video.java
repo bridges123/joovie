@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -52,13 +53,13 @@ public class Video {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "video")
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "video")
+    private Set<Comment> comments;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "video")
-    private List<Like> likes;
+    @OneToMany(mappedBy = "video")
+    private Set<Like> likes;
 
-    public Video(String uid, String title, String description, String video, String preview, Date uploaded, int views, String tags, User user, List<Comment> comments, List<Like> likes) {
+    public Video(String uid, String title, String description, String video, String preview, Date uploaded, int views, String tags, User user, Set<Comment> comments, Set<Like> likes) {
         this.uid = uid;
         this.title = title;
         this.description = description;

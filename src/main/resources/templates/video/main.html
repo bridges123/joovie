@@ -8,14 +8,24 @@
 <div class="video-list" th:each="video : ${videos}"
      style="display: inline-flex; width: 1000px">
     <a th:href="${video.getAbsoluteUrl(#request)}" style="color: black; text-decoration: none">
-        <div class="video-block">
+        <div class="video-block" style="width: 277px; height: 156px;">
             <img th:src="${video.getPreview()}" alt="Превью"
-                 style="width: 213px; height: 120px; border: 2px solid"><br>
-            <div class="video-info">
-                <p class="video-name" th:text="${video.getTitle()}" style="font-size: 18px;">Title</p>
-                <div class="video-text-info">
-                    <p class="video-views" th:text="${video.getViews()} + ' просмотров'" style="font-size: 12px;">Кол-во просмотров</p>
-                    <p class="video-datetime" th:text="${#dates.formatISO(video.getUploaded())}" style="font-size: 12px;">Date Uploaded</p>
+                 style="border-radius: 7%; width: 277px; height: 156px;"><br>
+            <div style="display: flex; margin-top: 10px;">
+                <a th:href="${video.getUser().getAbsoluteUrl(#request)}" style="text-decoration: none; margin-right: 15px;">
+                    <img th:src="${video.getUser().getAvatar()}" th:alt="${video.getUser().getUsername()}"
+                         style="width: 36px; height: 36px; border-radius: 50%"><br>
+                </a>
+                <div class="video-info" style="width: 230px">
+                    <p class="video-name" th:text="${video.getTitle()}" style="font-size: 16px;">Title</p>
+                    <a th:href="${video.getUser().getAbsoluteUrl(#request)}" style="text-decoration: none">
+                        <p class="video-user" th:text="${video.getUser().getUsername()}">Username</p>
+                    </a>
+                    <div class="video-text-info">
+                        <p class="video-views" th:text="${video.getViews()} + ' просмотров'" style="font-size: 12px; margin-right: 5px;">Кол-во просмотров</p>
+                        <span>*</span>
+                        <p class="video-datetime" th:text="${#dates.formatISO(video.getUploaded())}" style="font-size: 12px; margin-left: 5px;">Date Uploaded</p>
+                    </div>
                 </div>
             </div>
         </div>

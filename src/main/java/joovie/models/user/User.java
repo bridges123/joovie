@@ -47,25 +47,23 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Video> videos;
+    @OneToMany(mappedBy = "user")
+    private Set<Video> videos;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private List<Like> likes;
+    @OneToMany(mappedBy = "user")
+    private Set<Like> likes;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "follows",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "follower_id")})
-    private Set<User> followers;
+    @OneToMany(mappedBy = "user")
+    private Set<Follow> following;
 
-    @ManyToMany(mappedBy = "followers")
-    private Set<User> following;
+    @OneToMany(mappedBy = "follower")
+    private Set<Follow> followers;
 
-    public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, List<Video> videos, List<Comment> comments, List<Like> likes, Set<User> followers, Set<User> following) {
+    public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, Set<Video> videos, Set<Comment> comments, Set<Like> likes, Set<Follow> following, Set<Follow> followers)
+    {
         this.UID = UID;
         this.email = email;
         this.password = password;
@@ -77,8 +75,8 @@ public class User {
         this.videos = videos;
         this.comments = comments;
         this.likes = likes;
-        this.followers = followers;
         this.following = following;
+        this.followers = followers;
     }
 
     public String getAbsoluteUrl(HttpServletRequest request) {

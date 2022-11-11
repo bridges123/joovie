@@ -5,18 +5,19 @@
 .video-block {
 }
 
-.video-info {
-    margin-left: 1px;
-}
-
 .video-name {
     margin-bottom: 3px;
+}
+
+.video-user {
+    color: rgba(94, 93, 93, 0.98);
+    font-size: 12px;
+    margin-bottom: 2px;
 }
 
 .video-text-info {
     color: rgba(94, 93, 93, 0.98);
     display: flex;
-    justify-content: space-between;
 }
 
 .video-datetime {
