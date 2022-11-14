@@ -1,10 +1,12 @@
 package joovie.controllers.rest;
 
 import joovie.models.user.User;
+import joovie.models.video.Dislike;
 import joovie.models.video.Like;
 import joovie.models.video.Video;
 import joovie.repos.user.CommentRepository;
 import joovie.repos.user.UserRepository;
+import joovie.repos.video.DislikeRepository;
 import joovie.repos.video.LikeRepository;
 import joovie.repos.video.VideoRepository;
 import joovie.services.VideoService;
@@ -18,18 +20,17 @@ import java.util.Date;
 public class VideoRestController {
     private final VideoRepository videoRepository;
     private final LikeRepository likeRepository;
+    private final DislikeRepository dislikeRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
-    private final VideoService videoService;
 
-    public VideoRestController(VideoRepository videoRepository, LikeRepository likeRepository, CommentRepository commentRepository, UserRepository userRepository, VideoService videoService) {
+    public VideoRestController(VideoRepository videoRepository, LikeRepository likeRepository, DislikeRepository dislikeRepository, CommentRepository commentRepository, UserRepository userRepository) {
         this.videoRepository = videoRepository;
         this.likeRepository = likeRepository;
+        this.dislikeRepository = dislikeRepository;
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
-
-        this.videoService = videoService;
     }
 
     @PostMapping("/update-like")
@@ -41,6 +42,11 @@ public class VideoRestController {
         }
         if (video == null) {
             return ResponseEntity.badRequest().body("Video not found!");
+        }
+
+        Dislike dislike = dislikeRepository.findByUserIdAndVideoId(user.getId(), video.getId()).orElse(null);
+        if (dislike != null) {
+            dislikeRepository.delete(dislike);
         }
 
         like.setCreated(new Date());
@@ -59,6 +65,41 @@ public class VideoRestController {
         }
 
         likeRepository.delete(like);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/update-dislike")
+    public ResponseEntity<String> updateDislike(@RequestBody Dislike dislike) {
+        User user = userRepository.findById(dislike.getUser().getId()).orElse(null);
+        Video video = videoRepository.findById(dislike.getVideo().getId()).orElse(null);
+        if (user == null) {
+            return ResponseEntity.badRequest().body("User not found!");
+        }
+        if (video == null) {
+            return ResponseEntity.badRequest().body("Video not found!");
+        }
+
+        Like like = likeRepository.findByUserIdAndVideoId(user.getId(), video.getId()).orElse(null);
+        if (like != null) {
+            likeRepository.delete(like);
+        }
+
+        dislike.setCreated(new Date());
+        dislikeRepository.save(dislike);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/update-dislike")
+    public ResponseEntity<String> deleteDislike(@RequestBody Dislike gotDislike) {
+        Dislike dislike = dislikeRepository.findByUserIdAndVideoId(
+                gotDislike.getUser().getId(),
+                gotDislike.getVideo().getId()
+        ).orElse(null);
+        if (dislike == null) {
+            return ResponseEntity.badRequest().body("User or video not found!");
+        }
+
+        dislikeRepository.delete(dislike);
         return ResponseEntity.ok().build();
     }
 }

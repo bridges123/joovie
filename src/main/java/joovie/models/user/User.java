@@ -2,6 +2,7 @@ package joovie.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import joovie.models.video.Comment;
+import joovie.models.video.Dislike;
 import joovie.models.video.Like;
 import joovie.models.video.Video;
 import lombok.Getter;
@@ -57,12 +58,15 @@ public class User {
     private Set<Like> likes;
 
     @OneToMany(mappedBy = "user")
+    private Set<Dislike> dislikes;
+
+    @OneToMany(mappedBy = "user")
     private Set<Follow> following;
 
     @OneToMany(mappedBy = "follower")
     private Set<Follow> followers;
 
-    public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, Set<Video> videos, Set<Comment> comments, Set<Like> likes, Set<Follow> following, Set<Follow> followers)
+    public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, Set<Video> videos, Set<Comment> comments, Set<Like> likes, Set<Dislike> dislikes, Set<Follow> following, Set<Follow> followers)
     {
         this.UID = UID;
         this.email = email;
@@ -75,6 +79,7 @@ public class User {
         this.videos = videos;
         this.comments = comments;
         this.likes = likes;
+        this.dislikes = dislikes;
         this.following = following;
         this.followers = followers;
     }

@@ -59,7 +59,10 @@ public class Video {
     @OneToMany(mappedBy = "video")
     private Set<Like> likes;
 
-    public Video(String uid, String title, String description, String video, String preview, Date uploaded, int views, String tags, User user, Set<Comment> comments, Set<Like> likes) {
+    @OneToMany(mappedBy = "video")
+    private Set<Dislike> dislikes;
+
+    public Video(String uid, String title, String description, String video, String preview, Date uploaded, int views, String tags, User user, Set<Comment> comments, Set<Like> likes, Set<Dislike> dislikes) {
         this.uid = uid;
         this.title = title;
         this.description = description;
@@ -71,6 +74,7 @@ public class Video {
         this.user = user;
         this.comments = comments;
         this.likes = likes;
+        this.dislikes = dislikes;
     }
 
     public String getAbsoluteUrl(HttpServletRequest request) {
