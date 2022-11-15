@@ -14,8 +14,4 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     Optional<Video> findById(long id);
     Optional<Video> findByUid(String uid);
     List<Video> findByTitleContains(String name);
-
-    @Modifying
-    @Query(value = "insert into likes user_id = :user_id, video_id = :video_id", nativeQuery = true)
-    void addLikeRel(@Param("user_id") long userId, @Param("video_id") long videoId);
 }

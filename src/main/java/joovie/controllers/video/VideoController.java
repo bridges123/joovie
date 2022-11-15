@@ -80,15 +80,4 @@ public class VideoController {
 
         return "video/video";
     }
-
-//    @GetMapping("/trends")
-//    public String trends(Model model) {
-//        return "video/trends";
-//    }
-//
-//    @GetMapping("/history")
-//    @PreAuthorize("hasAuthority('developers:read')")
-//    public String history(Model model) {
-//        return "video/history";
-//    }
 }

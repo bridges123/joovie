@@ -60,15 +60,15 @@ public class UserController {
     }
 
     @GetMapping("/following")
-    public String followsPage(@AuthenticationPrincipal User user, Model model) {
+    public String followsPage(@AuthenticationPrincipal User authUser, Model model) {
+        if (authUser == null)
+            return "redirect:/logout";
+
+        joovie.models.user.User user = userRepository.findByEmail(authUser.getUsername()).orElse(null);
         if (user == null)
             return "redirect:/logout";
 
-        joovie.models.user.User currentUser = userRepository.findByEmail(user.getUsername()).orElse(null);
-        if (currentUser == null)
-            return "redirect:/logout";
-
-        model.addAttribute("channels", currentUser.getFollowing());
+        model.addAttribute("channels", user.getFollowing());
         return "user/following";
     }
 }

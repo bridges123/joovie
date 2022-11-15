@@ -24,13 +24,17 @@ public class VideoRestController {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
+    private final VideoService videoService;
 
-    public VideoRestController(VideoRepository videoRepository, LikeRepository likeRepository, DislikeRepository dislikeRepository, CommentRepository commentRepository, UserRepository userRepository) {
+
+    public VideoRestController(VideoRepository videoRepository, LikeRepository likeRepository, DislikeRepository dislikeRepository, CommentRepository commentRepository, UserRepository userRepository, VideoService videoService) {
         this.videoRepository = videoRepository;
         this.likeRepository = likeRepository;
         this.dislikeRepository = dislikeRepository;
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
+
+        this.videoService = videoService;
     }
 
     @PostMapping("/update-like")
@@ -44,13 +48,7 @@ public class VideoRestController {
             return ResponseEntity.badRequest().body("Video not found!");
         }
 
-        Dislike dislike = dislikeRepository.findByUserIdAndVideoId(user.getId(), video.getId()).orElse(null);
-        if (dislike != null) {
-            dislikeRepository.delete(dislike);
-        }
-
-        like.setCreated(new Date());
-        likeRepository.save(like);
+        videoService.saveLike(like);
         return ResponseEntity.ok().build();
     }
 
@@ -60,6 +58,7 @@ public class VideoRestController {
                 gotLike.getUser().getId(),
                 gotLike.getVideo().getId()
         ).orElse(null);
+
         if (like == null) {
             return ResponseEntity.badRequest().body("User or video not found!");
         }
@@ -79,13 +78,7 @@ public class VideoRestController {
             return ResponseEntity.badRequest().body("Video not found!");
         }
 
-        Like like = likeRepository.findByUserIdAndVideoId(user.getId(), video.getId()).orElse(null);
-        if (like != null) {
-            likeRepository.delete(like);
-        }
-
-        dislike.setCreated(new Date());
-        dislikeRepository.save(dislike);
+        videoService.saveDislike(dislike);
         return ResponseEntity.ok().build();
     }
 
@@ -95,6 +88,7 @@ public class VideoRestController {
                 gotDislike.getUser().getId(),
                 gotDislike.getVideo().getId()
         ).orElse(null);
+
         if (dislike == null) {
             return ResponseEntity.badRequest().body("User or video not found!");
         }
