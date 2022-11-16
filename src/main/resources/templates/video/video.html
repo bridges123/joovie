@@ -11,7 +11,7 @@
     <h4 class="video-title" th:text="${video.getTitle()}">Title</h4>
     <div class="video-info" style="font-size: 13px;">
         <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-            <span class="video-views" id="video-views" th:text="${video.getViews()}"
+            <span class="video-views" id="video-views" th:text="${video.getViews().size()}"
                   style="margin-right: 15px; font-weight: 600;">Views</span>
             <span class="video-date" th:text="${#dates.format(video.getUploaded(), 'd MMM yyyy')}"
                   style="font-weight: 600;">Uploaded</span>

@@ -68,7 +68,7 @@ public class UserController {
         if (user == null)
             return "redirect:/logout";
 
-        model.addAttribute("channels", user.getFollowing());
+        model.addAttribute("followingChannels", user.getFollowing());
         return "user/following";
     }
 }

@@ -61,10 +61,10 @@ public class User {
     private Set<View> views;
 
     @OneToMany(mappedBy = "user")
-    private Set<Follow> following;
+    private Set<Follow> followers;
 
     @OneToMany(mappedBy = "follower")
-    private Set<Follow> followers;
+    private Set<Follow> following;
 
     public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, Set<Video> videos, Set<Comment> comments, Set<Like> likes, Set<Dislike> dislikes, Set<View> views, Set<Follow> following, Set<Follow> followers) {
         this.UID = UID;
