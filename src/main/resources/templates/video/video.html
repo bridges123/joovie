@@ -107,14 +107,14 @@
         }
     }
 
-    async function updateLike() {
+    function updateLike() {
         if (/*[[${user_id == 0}]]*/ '') {
             window.location.replace(window.location.origin + "/login");
         }
 
         const liked = $('.like').attr('liked');
         if (1 - parseInt(liked)) {
-            if (await updateLikeRequest("POST")) {
+            if (updateLikeRequest("POST")) {
                 $('.like').attr('liked', 1);
                 $('.dislike').attr('disliked', 0);
                 $('.video-likes').text(
@@ -124,7 +124,7 @@
                 updateIcon('dislike');
             }
         } else {
-            if (await updateLikeRequest("DELETE")) {
+            if (updateLikeRequest("DELETE")) {
                 $(".like").attr('liked', 0);
                 $('.video-likes').text(
                     parseInt($('.video-likes').text()) - 1
@@ -134,7 +134,7 @@
         }
     }
 
-    async function updateLikeRequest(method) {
+    function updateLikeRequest(method) {
         const url = window.location.origin + "/video" + "/update-like";
         const data = {
             user: {
@@ -146,7 +146,7 @@
         }
 
         try {
-            const response = await fetch(url, {
+            const response = fetch(url, {
                 method: method,
                 body: JSON.stringify(data),
                 headers: {
@@ -163,14 +163,14 @@
         return false;
     }
 
-    async function updateDislike() {
+    function updateDislike() {
         if (/*[[${user_id == 0}]]*/ '') {
             window.location.replace(window.location.origin + "/login");
         }
 
         const disliked = $('.dislike').attr('disliked');
         if (1 - parseInt(disliked)) {
-            if (await updateDislikeRequest("POST")) {
+            if (updateDislikeRequest("POST")) {
                 if ($(".like").attr('liked') == 1) {
                     console.log($(".like").attr('liked') == 1)
                     console.log($(".like").attr('liked') == '1')
@@ -184,14 +184,14 @@
                 updateIcon('dislike');
             }
         } else {
-            if (await updateDislikeRequest("DELETE")) {
+            if (updateDislikeRequest("DELETE")) {
                 $(".dislike").attr('disliked', 0);
                 updateIcon('dislike');
             }
         }
     }
 
-    async function updateDislikeRequest(method) {
+    function updateDislikeRequest(method) {
         const url = window.location.origin + "/video" + "/update-dislike";
         const data = {
             user: {
@@ -203,7 +203,7 @@
         }
 
         try {
-            const response = await fetch(url, {
+            const response = fetch(url, {
                 method: method,
                 body: JSON.stringify(data),
                 headers: {
@@ -220,20 +220,20 @@
         return false;
     }
 
-    async function updateFollow() {
+    function updateFollow() {
         if (/*[[${user_id == 0}]]*/ '') {
             window.location.replace(window.location.origin + "/login");
         } else {
             const followed = $('.follow-button').hasClass('followed');
             if (followed) {
-                await updateFollowRequest('DELETE');
+                updateFollowRequest('DELETE');
             } else {
-                await updateFollowRequest('POST');
+                updateFollowRequest('POST');
             }
         }
     }
 
-    async function updateFollowRequest(method) {
+    function updateFollowRequest(method) {
         const url = window.location.origin + "/user" + "/update-follow";
         const data = {
             user: {
@@ -245,7 +245,7 @@
         }
 
         try {
-            const response = await fetch(url, {
+            const response = fetch(url, {
                 method: method,
                 body: JSON.stringify(data),
                 headers: {
@@ -261,51 +261,79 @@
         }
         return false;
     }
+    
+    function updateView(viewed, sec) {
+        if (/*[[${user_id != 0}]]*/ '') {
+            updateViewRequest(viewed, sec);
+        }
+    }
 
-    // function update_view(time) {
-    //     $.ajax({
-    //         type: "POST",
-    //         headers: {
-    //             "X-CSRFToken": "{{ csrf_token }}",
-    //         },
-    //         data: {
-    //             video: {{ video.id }},
-    //     user: {{ video.user.id }},
-    //     time: time
-    // },
-    //     url: "{% url 'video:video-api:view' %}",
-    //         success: function (data) {
-    //         if (data.status != 200)
-    //             alert(data.error);
-    //     }
-    // })
-    // }
+    async function updateViewRequest(viewed, sec) {
+        const url = window.location.origin + "/video" + "/update-view";
+        let data = {
+            user: {
+                id: /*[[${user_id}]]*/ 0
+            },
+            video: {
+                id: /*[[${video.getId()}]]*/ 0
+            },
+            viewTime: sec
+        }
+        let method = 'POST';
+        if (viewed) {
+            method = 'PATCH';
+        }
+        console.log(method)
+        console.log(data)
+
+        try {
+            const response = fetch(url, {
+                method: method,
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log(await response.json())
+            console.log(response.result)
+            if (response.ok)
+                return true;
+            else
+                console.log(response.body);
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+        return false;
+    }
 
     let sec = 0;
-    // add thymeleaf ${video.viewed}
-    let viewed = Boolean(0);
+    let viewed = Boolean(/*[[${viewed}]]*/);
 
-    // !!! add update_view before update page !!!
-
-    const videoPlayer = document.getElementsByClassName('video-player')[0]
-    videoPlayer.addEventListener('timeupdate', function () {
-        sec = parseInt(videoPlayer.currentTime)
-        if (!viewed && sec >= 10) {
-            viewed = true;
-            updateView();
+    const videoPlayer = document.getElementsByClassName('video-player')[0];
+    const clearId = setInterval(function () {
+        sec = parseInt(videoPlayer.currentTime);
+        if (sec % 5 == 0 && sec / 5 > 0) {
+            updateView(viewed, sec);
+            if (!viewed) {
+                viewed = true;
+            }
         }
-    }, false);
+        if (videoPlayer.ended) {
+            updateView(viewed, sec);
+            clearInterval(clearId);
+        }
+    }, 1000);
 
-    $('.like').click(async function () {
-        await updateLike();
+    $('.like').click(function () {
+        updateLike();
     });
 
-    $('.dislike').click(async function () {
-        await updateDislike();
+    $('.dislike').click(function () {
+        updateDislike();
     });
 
-    $('.follow-button').click(async function() {
-        await updateFollow();
+    $('.follow-button').click(function () {
+        updateFollow();
     })
 
     $(document).ready(function () {

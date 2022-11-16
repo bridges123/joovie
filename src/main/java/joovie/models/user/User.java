@@ -1,10 +1,7 @@
 package joovie.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import joovie.models.video.Comment;
-import joovie.models.video.Dislike;
-import joovie.models.video.Like;
-import joovie.models.video.Video;
+import joovie.models.video.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,7 +31,7 @@ public class User {
 
     private String password;
 
-    @NotNull(message = "Введите имя пользователя")
+    @NotEmpty(message = "Введите имя пользователя")
     private String username;
 
     private String avatar;
@@ -61,13 +58,15 @@ public class User {
     private Set<Dislike> dislikes;
 
     @OneToMany(mappedBy = "user")
+    private Set<View> views;
+
+    @OneToMany(mappedBy = "user")
     private Set<Follow> following;
 
     @OneToMany(mappedBy = "follower")
     private Set<Follow> followers;
 
-    public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, Set<Video> videos, Set<Comment> comments, Set<Like> likes, Set<Dislike> dislikes, Set<Follow> following, Set<Follow> followers)
-    {
+    public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, Set<Video> videos, Set<Comment> comments, Set<Like> likes, Set<Dislike> dislikes, Set<View> views, Set<Follow> following, Set<Follow> followers) {
         this.UID = UID;
         this.email = email;
         this.password = password;
@@ -80,6 +79,7 @@ public class User {
         this.comments = comments;
         this.likes = likes;
         this.dislikes = dislikes;
+        this.views = views;
         this.following = following;
         this.followers = followers;
     }

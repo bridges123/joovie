@@ -20,7 +20,7 @@
           <div class="video-info">
             <p class="video-name" th:text="${video.getTitle()}" style="font-size: 18px;">Title</p>
             <div class="video-text-info">
-              <p class="video-views" th:text="${video.getViews()} + ' просмотров'" style="font-size: 12px;">Кол-во просмотров</p>
+              <p class="video-views" th:text="${video.getViews().size()} + ' просмотров'" style="font-size: 12px;">Кол-во просмотров</p>
               <p class="video-datetime" th:text="${#dates.formatISO(video.getUploaded())}" style="font-size: 12px;">Date Uploaded</p>
             </div>
           </div>

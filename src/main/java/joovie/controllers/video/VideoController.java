@@ -6,6 +6,7 @@ import joovie.repos.user.UserRepository;
 import joovie.repos.video.DislikeRepository;
 import joovie.repos.video.LikeRepository;
 import joovie.repos.video.VideoRepository;
+import joovie.repos.video.ViewRepository;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -23,13 +24,15 @@ public class VideoController {
     private final DislikeRepository dislikeRepository;
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
+    private final ViewRepository viewRepository;
 
-    public VideoController(VideoRepository videoRepository, LikeRepository likeRepository, DislikeRepository dislikeRepository, UserRepository userRepository, FollowRepository followRepository) {
+    public VideoController(VideoRepository videoRepository, LikeRepository likeRepository, DislikeRepository dislikeRepository, UserRepository userRepository, FollowRepository followRepository, ViewRepository viewRepository) {
         this.videoRepository = videoRepository;
         this.likeRepository = likeRepository;
         this.dislikeRepository = dislikeRepository;
         this.userRepository = userRepository;
         this.followRepository = followRepository;
+        this.viewRepository = viewRepository;
     }
 
     @GetMapping("/add") // POST
@@ -58,6 +61,7 @@ public class VideoController {
 
         long userId = 0;
         boolean followed = false;
+        boolean viewed = false;
         boolean liked = false;
         boolean disliked = false;
         if (authUser != null) {
@@ -67,12 +71,14 @@ public class VideoController {
             }
             userId = user.getId();
             followed = followRepository.findByUserIdAndFollowerId(video.getUser().getId(), user.getId()).isPresent();
+            viewed = viewRepository.findByUserIdAndVideoId(user.getId(), video.getId()).isPresent();
             liked = likeRepository.findByUserIdAndVideoId(user.getId(), video.getId()).isPresent();
             disliked = dislikeRepository.findByUserIdAndVideoId(user.getId(), video.getId()).isPresent();
         }
 
         model.addAttribute("user_id", userId);
         model.addAttribute("followed", followed);
+        model.addAttribute("viewed", viewed);
         model.addAttribute("video", video);
         model.addAttribute("liked", liked);
         model.addAttribute("disliked", disliked);

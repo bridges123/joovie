@@ -11,7 +11,6 @@ import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 
@@ -45,8 +44,6 @@ public class Video {
     @DateTimeFormat
     private Date uploaded;
 
-    private int views;
-
     private String tags;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -62,16 +59,19 @@ public class Video {
     @OneToMany(mappedBy = "video")
     private Set<Dislike> dislikes;
 
-    public Video(String uid, String title, String description, String video, String preview, Date uploaded, int views, String tags, User user, Set<Comment> comments, Set<Like> likes, Set<Dislike> dislikes) {
+    @OneToMany(mappedBy = "video")
+    private Set<View> views;
+
+    public Video(String uid, String title, String description, String video, String preview, Date uploaded, Set<View> views, String tags, User user, Set<Comment> comments, Set<Like> likes, Set<Dislike> dislikes) {
         this.uid = uid;
         this.title = title;
         this.description = description;
         this.video = video;
         this.preview = preview;
         this.uploaded = uploaded;
-        this.views = views;
         this.tags = tags;
         this.user = user;
+        this.views = views;
         this.comments = comments;
         this.likes = likes;
         this.dislikes = dislikes;

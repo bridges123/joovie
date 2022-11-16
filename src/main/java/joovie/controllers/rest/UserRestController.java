@@ -24,7 +24,7 @@ public class UserRestController {
     }
 
     @PostMapping("/update-follow")
-    public ResponseEntity<String> updateFollow(@RequestBody Follow follow) {
+    public ResponseEntity<String> createFollow(@RequestBody Follow follow) {
         User user = userRepository.findById(follow.getUser().getId()).orElse(null);
         User follower = userRepository.findById(follow.getFollower().getId()).orElse(null);
         if (user == null) {

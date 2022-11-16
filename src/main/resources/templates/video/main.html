@@ -22,7 +22,7 @@
                         <p class="video-user" th:text="${video.getUser().getUsername()}">Username</p>
                     </a>
                     <div class="video-text-info">
-                        <p class="video-views" th:text="${video.getViews()} + ' просмотров'" style="font-size: 12px; margin-right: 5px;">Кол-во просмотров</p>
+                        <p class="video-views" th:text="${video.getViews().size()} + ' просмотров'" style="font-size: 12px; margin-right: 5px;">Кол-во просмотров</p>
                         <span>*</span>
                         <p class="video-datetime" th:text="${#dates.formatISO(video.getUploaded())}" style="font-size: 12px; margin-left: 5px;">Date Uploaded</p>
                     </div>
