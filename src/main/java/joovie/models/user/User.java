@@ -2,6 +2,8 @@ package joovie.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import joovie.models.video.*;
+import joovie.models.video.comment.Comment;
+import joovie.models.video.comment.CommentLike;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +16,7 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "user", schema = "public")
+@Table(name = "users", schema = "public")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -46,27 +48,30 @@ public class User {
     private Status status;
 
     @OneToMany(mappedBy = "user")
-    private Set<Video> videos;
+    private List<Video> videos;
 
     @OneToMany(mappedBy = "user")
-    private Set<Comment> comments;
+    private List<Comment> comments;
 
     @OneToMany(mappedBy = "user")
-    private Set<Like> likes;
+    private List<CommentLike> likedComments;
+
+    @OneToMany(mappedBy = "user")
+    private List<Like> likes;
 
     @OneToMany(mappedBy = "user")
     private Set<Dislike> dislikes;
 
     @OneToMany(mappedBy = "user")
-    private Set<View> views;
+    private List<View> views;
 
     @OneToMany(mappedBy = "user")
-    private Set<Follow> followers;
+    private List<Follow> followers;
 
     @OneToMany(mappedBy = "follower")
-    private Set<Follow> following;
+    private List<Follow> following;
 
-    public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, Set<Video> videos, Set<Comment> comments, Set<Like> likes, Set<Dislike> dislikes, Set<View> views, Set<Follow> following, Set<Follow> followers) {
+    public User(String UID, String email, String password, String username, String avatar, String description, Role role, Status status, List<Video> videos, List<Comment> comments, List<Like> likes, Set<Dislike> dislikes, List<View> views, List<Follow> followers, List<Follow> following) {
         this.UID = UID;
         this.email = email;
         this.password = password;
@@ -80,8 +85,8 @@ public class User {
         this.likes = likes;
         this.dislikes = dislikes;
         this.views = views;
-        this.following = following;
         this.followers = followers;
+        this.following = following;
     }
 
     public String getAbsoluteUrl(HttpServletRequest request) {

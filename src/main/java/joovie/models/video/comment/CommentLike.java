@@ -1,38 +1,34 @@
-package joovie.models.video;
+package joovie.models.video.comment;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import joovie.models.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
-
 
 @Entity
-@Table(name = "views")
-@JsonIgnoreProperties(ignoreUnknown = true)
-@NoArgsConstructor
+@Table(name = "comment_likes")
 @Getter
 @Setter
-public class View {
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CommentLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @Column(name = "view_time")
-    private int viewTime;
-
-    @DateTimeFormat
-    private Date viewDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "video_id")
-    private Video video;
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
+    public CommentLike(User user, Comment comment) {
+        this.user = user;
+        this.comment = comment;
+    }
 }

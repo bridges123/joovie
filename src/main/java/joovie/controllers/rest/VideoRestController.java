@@ -40,7 +40,7 @@ public class VideoRestController {
     }
 
     @PostMapping("/update-view")
-    public ResponseEntity<String> createView(@RequestBody View view) {
+    public ResponseEntity<?> createView(@RequestBody View view) {
         User user = userRepository.findById(view.getUser().getId()).orElse(null);
         Video video = videoRepository.findById(view.getVideo().getId()).orElse(null);
         if (user == null) {
@@ -56,7 +56,7 @@ public class VideoRestController {
     }
 
     @PatchMapping("/update-view")
-    public ResponseEntity<String> updateView(@RequestBody View gotView) {
+    public ResponseEntity<?> updateView(@RequestBody View gotView) {
         View view = viewRepository.findByUserIdAndVideoId(
                 gotView.getUser().getId(),
                 gotView.getVideo().getId()
@@ -71,7 +71,7 @@ public class VideoRestController {
     }
 
     @PostMapping("/update-like")
-    public ResponseEntity<String> createLike(@RequestBody Like like) {
+    public ResponseEntity<?> createLike(@RequestBody Like like) {
         User user = userRepository.findById(like.getUser().getId()).orElse(null);
         Video video = videoRepository.findById(like.getVideo().getId()).orElse(null);
         if (user == null) {
@@ -86,7 +86,7 @@ public class VideoRestController {
     }
 
     @DeleteMapping("/update-like")
-    public ResponseEntity<String> deleteLike(@RequestBody Like gotLike) {
+    public ResponseEntity<?> deleteLike(@RequestBody Like gotLike) {
         Like like = likeRepository.findByUserIdAndVideoId(
                 gotLike.getUser().getId(),
                 gotLike.getVideo().getId()
@@ -101,7 +101,7 @@ public class VideoRestController {
     }
 
     @PostMapping("/update-dislike")
-    public ResponseEntity<String> createDislike(@RequestBody Dislike dislike) {
+    public ResponseEntity<?> createDislike(@RequestBody Dislike dislike) {
         User user = userRepository.findById(dislike.getUser().getId()).orElse(null);
         Video video = videoRepository.findById(dislike.getVideo().getId()).orElse(null);
         if (user == null) {
@@ -116,7 +116,7 @@ public class VideoRestController {
     }
 
     @DeleteMapping("/update-dislike")
-    public ResponseEntity<String> deleteDislike(@RequestBody Dislike gotDislike) {
+    public ResponseEntity<?> deleteDislike(@RequestBody Dislike gotDislike) {
         Dislike dislike = dislikeRepository.findByUserIdAndVideoId(
                 gotDislike.getUser().getId(),
                 gotDislike.getVideo().getId()

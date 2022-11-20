@@ -59,13 +59,14 @@ public class VideoController {
         if (video == null)
             return "redirect:/"; // add 404 page
 
+        joovie.models.user.User user = null;
         long userId = 0;
         boolean followed = false;
         boolean viewed = false;
         boolean liked = false;
         boolean disliked = false;
         if (authUser != null) {
-            joovie.models.user.User user = userRepository.findByEmail(authUser.getUsername()).orElse(null);
+            user = userRepository.findByEmail(authUser.getUsername()).orElse(null);
             if (user == null) {
                 return "redirect:/logout";
             }
@@ -77,6 +78,7 @@ public class VideoController {
         }
 
         model.addAttribute("user_id", userId);
+        model.addAttribute("user", user);
         model.addAttribute("followed", followed);
         model.addAttribute("viewed", viewed);
         model.addAttribute("video", video);

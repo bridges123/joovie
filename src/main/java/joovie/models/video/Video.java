@@ -2,6 +2,7 @@ package joovie.models.video;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import joovie.models.user.User;
+import joovie.models.video.comment.Comment;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 
@@ -51,18 +53,18 @@ public class Video {
     private User user;
 
     @OneToMany(mappedBy = "video")
-    private Set<Comment> comments;
+    private List<Comment> comments;
 
     @OneToMany(mappedBy = "video")
-    private Set<Like> likes;
+    private List<Like> likes;
 
     @OneToMany(mappedBy = "video")
     private Set<Dislike> dislikes;
 
     @OneToMany(mappedBy = "video")
-    private Set<View> views;
+    private List<View> views;
 
-    public Video(String uid, String title, String description, String video, String preview, Date uploaded, Set<View> views, String tags, User user, Set<Comment> comments, Set<Like> likes, Set<Dislike> dislikes) {
+    public Video(String uid, String title, String description, String video, String preview, Date uploaded, String tags, User user, List<Comment> comments, List<Like> likes, Set<Dislike> dislikes, List<View> views) {
         this.uid = uid;
         this.title = title;
         this.description = description;
@@ -71,10 +73,10 @@ public class Video {
         this.uploaded = uploaded;
         this.tags = tags;
         this.user = user;
-        this.views = views;
         this.comments = comments;
         this.likes = likes;
         this.dislikes = dislikes;
+        this.views = views;
     }
 
     public String getAbsoluteUrl(HttpServletRequest request) {

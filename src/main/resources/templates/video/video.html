@@ -67,7 +67,7 @@
                         <img th:src="@{/img/default_avatar.jpg}" th:alt="${comment.getUser().getUsername()}"
                              class="comment-user-avatar" style="width: 40px; height: 40px; border-radius: 50%;">
                     </a>
-                    <div style="margin-left: 10px; line-height: 10px;">
+                    <div class="comment-body" style="margin-left: 10px; line-height: 10px;">
                         <div style="display:flex;">
                             <a th:href="${comment.getUser().getAbsoluteUrl(#request)}"
                                style="text-decoration: none; color: black">
@@ -81,9 +81,9 @@
                         <p class="comment-text" th:text="${comment.getText()}">Comment Text</p>
                         <!--                        <p class="comment-likes" th:text="${comment.getLikes() + 'Likes'}">Comment Likes</p>-->
                         <!--                        <p class="comment-likes" th:text="">Comment Likes</p>-->
-                        <div class="comment-like" th:attr="liked=0"
+                        <div class="comment-like" th:attr="liked=${comment.isLikedByUser(user).compareTo(false)}"
                              style="cursor: pointer; display:flex; align-items: center;">
-                            <span class="comment-likes">323</span>
+                            <span class="comment-likes" th:text="${comment.getCommentLikes().size()}">Likes count</span>
                             <img th:src="@{/img/like.svg}" alt="Like" class="comment-like-icon"
                                  style="width: 18px; height: 18px; margin-left: 2px;">
                         </div>
@@ -134,7 +134,7 @@
         }
     }
 
-    function updateLikeRequest(method) {
+    async function updateLikeRequest(method) {
         const url = window.location.origin + "/video" + "/update-like";
         const data = {
             user: {
@@ -146,7 +146,7 @@
         }
 
         try {
-            const response = fetch(url, {
+            const response = await fetch(url, {
                 method: method,
                 body: JSON.stringify(data),
                 headers: {
@@ -191,7 +191,7 @@
         }
     }
 
-    function updateDislikeRequest(method) {
+    async function updateDislikeRequest(method) {
         const url = window.location.origin + "/video" + "/update-dislike";
         const data = {
             user: {
@@ -203,7 +203,7 @@
         }
 
         try {
-            const response = fetch(url, {
+            const response = await fetch(url, {
                 method: method,
                 body: JSON.stringify(data),
                 headers: {
@@ -226,14 +226,18 @@
         } else {
             const followed = $('.follow-button').hasClass('followed');
             if (followed) {
-                updateFollowRequest('DELETE');
+                if (updateFollowRequest('DELETE')) {
+                    // change followers
+                }
             } else {
-                updateFollowRequest('POST');
+                if (updateFollowRequest('POST')) {
+
+                }
             }
         }
     }
 
-    function updateFollowRequest(method) {
+    async function updateFollowRequest(method) {
         const url = window.location.origin + "/user" + "/update-follow";
         const data = {
             user: {
@@ -245,7 +249,7 @@
         }
 
         try {
-            const response = fetch(url, {
+            const response = await fetch(url, {
                 method: method,
                 body: JSON.stringify(data),
                 headers: {
@@ -261,7 +265,7 @@
         }
         return false;
     }
-    
+
     function updateView(viewed, sec) {
         if (/*[[${user_id != 0}]]*/ '') {
             updateViewRequest(viewed, sec);
@@ -287,15 +291,13 @@
         console.log(data)
 
         try {
-            const response = fetch(url, {
+            const response = await fetch(url, {
                 method: method,
                 body: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log(await response.json())
-            console.log(response.result)
             if (response.ok)
                 return true;
             else
@@ -304,6 +306,21 @@
             console.error('Ошибка:', error);
         }
         return false;
+    }
+
+    function updateCommentLike(commentLike) {
+        if (parseInt(commentLike.getAttribute('liked'))) {
+            $(commentLike).children('img').attr('src', /*[[@{/img/like_liked.svg}]]*/);
+        } else {
+            $(commentLike).children('img').attr('src', /*[[@{/img/like.svg}]]*/);
+        }
+    }
+
+    function updateCommentsIcons(tag) {
+        const commentLikeTags = document.getElementsByClassName(tag);
+        for (let commentLike of commentLikeTags) {
+            updateCommentLike(commentLike);
+        }
     }
 
     let sec = 0;
@@ -339,6 +356,7 @@
     $(document).ready(function () {
         updateIcon('like');
         updateIcon('dislike');
+        updateCommentsIcons('comment-like');
     });
 </script>
 
