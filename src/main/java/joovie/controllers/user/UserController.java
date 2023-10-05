@@ -2,6 +2,7 @@ package joovie.controllers.user;
 
 import joovie.models.validators.UserValidator;
 import joovie.repos.user.UserRepository;
+import joovie.security.SecurityUser;
 import joovie.services.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 
 @Controller
@@ -40,7 +42,7 @@ public class UserController {
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") @Valid joovie.models.user.User user,
                                BindingResult bindingResult) {
-        bindingResult = userValidator.validateUser(bindingResult, user);
+        userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "user/registration";
 
@@ -50,13 +52,14 @@ public class UserController {
 
     @GetMapping("/profile")
     public String profilePage(@AuthenticationPrincipal User authUser, Model model) {
-        joovie.models.user.User user = userRepository.findByEmail(authUser.getUsername()).orElse(null);
-        if (user == null) {
-            return "redirect:/logout";
+        Optional<joovie.models.user.User> user = userRepository.findByEmail(authUser.getUsername());
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
+            model.addAttribute("videos", user.get().getVideos());
+            return "user/profile";
         }
-        model.addAttribute("user", user);
-        model.addAttribute("videos", user.getVideos());
-        return "user/profile";
+        return "redirect:/logout";
+
     }
 
     @GetMapping("/following")

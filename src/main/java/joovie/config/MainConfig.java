@@ -14,8 +14,8 @@ public class MainConfig {
         this.userRepository = userRepository;
     }
 
-    @Bean
-    public UserValidator userValidator() {
-        return new UserValidator(userRepository);
-    }
+//    @Bean
+//    public UserValidator userValidator() {
+//        return new UserValidator(userRepository);
+//    }
 }

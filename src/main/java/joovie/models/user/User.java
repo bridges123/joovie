@@ -7,6 +7,7 @@ import joovie.models.video.comment.CommentLike;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -38,7 +39,7 @@ public class User {
 
     private String avatar;
 
-    @Max(value = 1024, message = "Слишком длинное описание (макс. 1024 символа)")
+    @Length(max = 1024, message = "Слишком длинное описание (макс. 1024 символа)")
     private String description;
 
     @Enumerated(EnumType.STRING)

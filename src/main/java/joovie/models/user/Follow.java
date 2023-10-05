@@ -1,7 +1,6 @@
 package joovie.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import joovie.models.video.Video;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
